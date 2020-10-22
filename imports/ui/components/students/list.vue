@@ -62,8 +62,16 @@ export default {
       return subjects;
     },
     removeStudent(studentId) {
-      if(confirm("Are you sure to delete it??")) {
-        Students.remove(studentId);
+      let studentHavingSubjects = "";
+      this.subjects.map(subject => {
+        studentHavingSubjects = subject.students.find(student => student === studentId);
+      });
+      if(studentHavingSubjects) {
+        alert("You can not remove this student because he has subject/subjects!!!");
+      } else {
+        if(confirm("Are you sure to delete it??")) {
+          Students.remove(studentId);
+        }
       }
     },
     updateStudent(student) {
