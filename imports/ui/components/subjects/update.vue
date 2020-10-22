@@ -19,13 +19,16 @@
       </div>
 
       <!-- Students List For Adding To A Subject -->
-      <div class="enrolling__students">
-        <div
-          class="enrolling__student"
-          v-for="student in students"
-          :key="student._id"
-          @click="addStudentToSubject(student._id)"
-        >{{ student.name }}</div>
+      <div class="student__add__or__remove_input">
+        <label class="form__label">Click To Add Or Remove</label>
+        <div class="enrolling__students">
+          <div
+            class="enrolling__student"
+            v-for="student in students"
+            :key="student._id"
+            @click="toggleStudentToSubject(student._id)"
+          >{{ student.name }}</div>
+        </div>
       </div>
 
       <div class="form__action__btns">
@@ -88,11 +91,12 @@ export default {
           this.subject.students = [];
       }
     },
-    addStudentToSubject(studentId) {
-      const studentExistsInAddedList = this.addedStudents.find(stuId => stuId === studentId);
+    toggleStudentToSubject(studentId) {
       const studentExists = this.subject.students.find(stuId => stuId === studentId);
-      if(studentExists || studentExistsInAddedList) {
-        alert("Student already enrolled!!!");
+      if(studentExists) {
+        alert("Removed Student From This Subject!!!");
+        this.subject.students.splice(this.subject.students.indexOf(studentId), 1);        
+        this.addedStudents.splice(this.addedStudents.indexOf(this.students.find(stu => stu._id === studentId)), 1);
       } else {
         alert("Added Student To This Subject!!!");
         this.subject.students.push(studentId);        
@@ -106,15 +110,14 @@ export default {
     },
     cancelSubjectUpdating() {
       this.$store.dispatch('CHANGE_UPDATE_SUBJECT_MODAL');
-      // Clearing Form
-      this._id = "";
-      this.subject.name = "";
-      this.subject.students = [];
+      location.reload();
     }
   }
 }
 </script>
 
 <style scoped>
-
+.student__added__list {
+  margin-bottom: 20px;
+}
 </style>

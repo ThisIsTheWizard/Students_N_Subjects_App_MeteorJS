@@ -150,7 +150,7 @@ td {
 }
 .enrolling__students {
   padding: 10px;
-  margin: 20px 0;
+  margin-bottom: 20px;
   width: 100%;
   border: 1px solid violet;
   border-radius: 5px;

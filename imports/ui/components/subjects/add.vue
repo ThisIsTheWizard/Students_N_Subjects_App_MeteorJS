@@ -19,13 +19,16 @@
       </div>
 
       <!-- Students List For Adding To A Subject -->
-      <div class="enrolling__students">
-        <div
-          class="enrolling__student"
-          v-for="student in students"
-          :key="student._id"
-          @click="addStudentToSubject(student._id)"
-        >{{ student.name }}</div>
+      <div class="student__add__or__remove_input">
+        <label class="form__label">Click To Add Or Remove</label>
+        <div class="enrolling__students">
+          <div
+            class="enrolling__student"
+            v-for="student in students"
+            :key="student._id"
+            @click="toggleStudentToSubject(student._id)"
+          >{{ student.name }}</div>
+        </div>
       </div>
 
       <div class="form__action__btns">
@@ -69,22 +72,23 @@ export default {
     addSubject() {
       this.$store.dispatch('CHANGE_ADD_SUBJECT_MODAL');
       if(this.subject.students.length < 1) {
-          alert("Please add students to this subject to create the subject!!!");
+        alert("Please add students to this subject to create the subject!!!");
       } else {
-          Subjects.insert(this.subject);
-          // Clearing Form
-          this.subject.name = "";
-          this.subject.students = [];
+        Subjects.insert(this.subject);
+        // Clearing Form
+        this.subject.name = "";
+        this.subject.students = [];
       }
     },
-    addStudentToSubject(studentId){
-        const studentExists = this.subject.students.find(stuId => stuId === studentId);
-        if(studentExists){
-            alert("Student already enrolled!!!");
-        } else {
-            alert("Added Student To This Subject!!!");
-            this.subject.students.push(studentId);
-        }
+    toggleStudentToSubject(studentId){
+      const studentExists = this.subject.students.find(stuId => stuId === studentId);
+      if(studentExists){
+        alert("Removed Student From This Subject!!!");
+        this.subject.students.splice(this.subject.students.indexOf(studentId), 1);
+      } else {
+        alert("Added Student To This Subject!!!");
+        this.subject.students.push(studentId);
+      }
     },
     cancelSubjectCreation() {
       this.$store.dispatch('CHANGE_ADD_SUBJECT_MODAL');
@@ -96,6 +100,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.student__added__list {
+  margin-bottom: 20px;
+}
 </style>
