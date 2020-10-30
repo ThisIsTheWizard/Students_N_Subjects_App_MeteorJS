@@ -67,7 +67,7 @@ export default {
         studentHavingSubjects = subject.students.find(student => student === studentId);
       });
       if(studentHavingSubjects) {
-        alert("You can not remove this student because he has subject/subjects!!!");
+        alert("You can not remove this student because he/she has subject(s)!!!");
       } else {
         if(confirm("Are you sure to delete it??")) {
           Students.remove(studentId);
